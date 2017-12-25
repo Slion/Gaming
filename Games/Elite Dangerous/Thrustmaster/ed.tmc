@@ -1,0 +1,192 @@
+include "target.tmh"
+include "ed.ttm"  //call the other file with keystrokes
+
+alias RIGHT;	// second T16KR handle, which will be used all mapping commands
+alias LEFT;
+
+int main()
+    {
+    Configure(&HCougar, MODE_EXCLUDED);
+    Configure(&Joystick, MODE_EXCLUDED);
+    Configure(&Throttle, MODE_EXCLUDED);
+    Configure(&LMFD, MODE_EXCLUDED);
+    Configure(&RMFD, MODE_EXCLUDED);
+    Configure(&TWCSThrottle, MODE_EXCLUDED);
+    Configure(&TFRPRudder, MODE_EXCLUDED);
+
+	if(Init(&EventHandle)) return 1;
+	
+	// Swap those as needed
+	&LEFT = &T16000L;
+	&RIGHT = &T16000;
+	
+	//&RIGHT = GetIndexJoy(SelectUsbDevice("VID_044F&PID_B10A"));		// Expect a second T.16000 to be plugged on USB
+	
+	//DoMwoMapping();
+	
+	//DoMapAxis();
+	
+	//MapKey(&RIGHT, TS1, DX2);
+    //MapKey(&LEFT, TS1, DX3);
+    
+    MapAxes();
+    MapKeys();
+
+    }
+
+int EventHandle(int type, alias o, int x)
+{
+   DefaultMapping(&o, x);
+   //add event handling code here
+   
+   //Needed for second hat mapping to work
+   //if((&o == &RIGHT) & (x == HAT)) Hat2Btn(&o, HAT, H1U, &h16000Status);      // generate the HAT virtual keys
+}
+
+
+//
+// Axes mapping
+//
+int MapAxes()
+    {
+	
+    //1st T-16000M
+	MapAxis(&RIGHT, JOYX, DX_X_AXIS); // Roll
+	MapAxis(&RIGHT, JOYY, DX_Y_AXIS); // Pitch
+	MapAxis(&RIGHT, RUDDER, DX_ZROT_AXIS); // Yaw
+    MapAxis(&RIGHT, THR, DX_SLIDER_AXIS, AXIS_REVERSED); // Unused
+		
+	//2nd T-16000M
+	MapAxis(&LEFT, JOYX, DX_XROT_AXIS); // Lateral thrusters
+	MapAxis(&LEFT, JOYY, DX_Z_AXIS); // Throttle, instant throttle to use durring combat or maneuvers
+	MapAxis(&LEFT, RUDDER, DX_YROT_AXIS); // Vertical thrusters
+	MapAxis(&LEFT, THR, DX_Z_AXIS); // Throttle, fixed throttle to use in supercruise for instance
+	// Restrict fixed Throttle to forward as T16K does not have neutral position marker
+	SetCustomCurve(&LEFT, THR, LIST(0,0,  100,50)); 
+
+    }
+    
+//
+// Key mapping
+//
+int MapKeys()
+    {
+    // -------- Right joystick --------
+    // Map our hat
+    MapKey(&RIGHT, H1U, DXHATUP);
+	MapKey(&RIGHT, H1R, DXHATRIGHT);	
+	MapKey(&RIGHT, H1D, DXHATDOWN);
+	MapKey(&RIGHT, H1L, DXHATLEFT);
+		
+	// Map trigger and thumb stick buttons	
+	MapKey(&RIGHT, TS1, DX1); 
+	MapKey(&RIGHT, TS2, DX2); 
+	MapKey(&RIGHT, TS3, DX3); 
+	MapKey(&RIGHT, TS4, DX4);
+
+    // -------- Left joystick --------
+    // Define button offset for left joystick
+    int offset = DX16;
+
+    // Map our hat
+    MapKey(&LEFT, H1U, offset+0);
+	MapKey(&LEFT, H1R, offset+1);
+	MapKey(&LEFT, H1D, offset+2);
+	MapKey(&LEFT, H1L, offset+3);
+
+    // Map trigger and thumb stick buttons	
+    MapKey(&LEFT, TS1, offset+4); 
+	MapKey(&LEFT, TS2, offset+5); 
+	MapKey(&LEFT, TS3, offset+6); 
+	MapKey(&LEFT, TS4, offset+7);	
+    }
+
+
+int DoMwoMapping()
+{
+	// AXES Mapping----------------------------------------------------
+	
+    DoMapAxis();
+		
+	//AXES Curve configuration------------------------------------------
+	
+//	SetSCurve(&Joystick, JOYX, 
+//5,  //Left Deadzone set to 5% 
+//2,  //Center Deadzone set to 2%
+//5,  //Right Deadzone set to 5% 
+//3,  //Curve set to 3
+//0  //Scale/zoom neutral 
+//);
+
+	
+	//1st T-16000M
+	SetSCurve(&RIGHT, JOYX, 0, 50, 0, 0, 0);
+	SetSCurve(&RIGHT, JOYY, 30, 10, 30, 0, 0);
+	SetSCurve(&RIGHT, RUDDER, 0, 0, 0, 0, 0);
+	
+	
+	//2nd T-16000M
+	SetSCurve(&LEFT, JOYX, 0, 0, 0, 10, 0);
+	SetSCurve(&LEFT, JOYY, 0, 0, 0, 10, 0);
+	SetSCurve(&LEFT, RUDDER, 0, 0, 0, 0, 0);
+	
+	//BUTTON MAPPING----------------------------------------------------
+	
+	//1st T-16000M
+	MapKey(&RIGHT, TS1, DX1); 
+	MapKey(&RIGHT, TS2, DX2); 
+	MapKey(&RIGHT, TS3, DX3); 
+	MapKey(&RIGHT, TS4, DX4); 
+	MapKey(&RIGHT, B5, DX5);
+	MapKey(&RIGHT, B6, DX6);
+	MapKey(&RIGHT, B7, DX7);
+	MapKey(&RIGHT, B8, DX8);
+	MapKey(&RIGHT, B9, DX9);
+	MapKey(&RIGHT, B10, DX10);
+	MapKey(&RIGHT, B11, DX11);
+	MapKey(&RIGHT, B12, DX12);
+	MapKey(&RIGHT, B13, DX13);
+	MapKey(&RIGHT, B14, DX14);
+	MapKey(&RIGHT, B15, DX15);
+	MapKey(&RIGHT, B16, DX16);
+//
+//	MapKey(&RIGHT, H1U, DX29);
+//	MapKey(&RIGHT, H1D, DX30);
+//	MapKey(&RIGHT, H1L, DX31);
+//	MapKey(&RIGHT, H1R, DX32);
+
+	MapKey(&RIGHT, H1U, DXHATUP);
+	MapKey(&RIGHT, H1D, DXHATDOWN);
+	MapKey(&RIGHT, H1L, DXHATLEFT);
+	MapKey(&RIGHT, H1R, DXHATRIGHT);
+
+	
+	//2nd T-16000M
+	MapKey(&LEFT, TS1, DX17); 
+	MapKey(&LEFT, TS2, DX18); 
+	MapKey(&LEFT, TS3, DX19); 
+	MapKey(&LEFT, TS4, DX20); 
+	MapKey(&LEFT, B5, DX21);
+	MapKey(&LEFT, B6, DX22);
+	MapKey(&LEFT, B7, DX23);
+	MapKey(&LEFT, B8, DX24);
+	MapKey(&LEFT, B9, DX25);
+	MapKey(&LEFT, B10, DX26);
+	MapKey(&LEFT, B11, DX27);
+	MapKey(&LEFT, B12, DX28);
+	MapKey(&LEFT, B13, 0);
+	MapKey(&LEFT, B14, 0);
+	MapKey(&LEFT, B15, 0);
+	MapKey(&LEFT, B16, 0);
+//
+	//MapKey(&LEFT, H1U, DXHATUP);
+	//MapKey(&LEFT, H1D, DXHATDOWN);
+	//MapKey(&LEFT, H1L, DXHATLEFT);
+	//MapKey(&LEFT, H1R, DXHATRIGHT);
+
+	MapKey(&LEFT, H1U, DX29);
+	MapKey(&LEFT, H1D, DX30);
+	MapKey(&LEFT, H1L, DX31);
+	MapKey(&LEFT, H1R, DX32);
+
+}
