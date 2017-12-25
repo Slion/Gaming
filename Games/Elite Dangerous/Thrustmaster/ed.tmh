@@ -7,7 +7,14 @@ define KWeaponsFirePrimary              DX1
 define KWeaponsToggleHardpoints         DX2
 define KTargetSelect                    DX3 
 define KWeaponsCycleFireGroupNext       DX4
+
 //
+define KModeSwitchMapSystem             DX14
+define KModeSwitchMapGalaxy             DX15
+define KModeSwitchPanelComms            DX16
+define KModeSwitchPanelSystems          DX17
+define KModeSwitchPanelRole             DX18
+define KModeSwitchPanelTarget           DX19
 define KWeaponsFireSecondary            DX20 
 define KFlightEngineBoost               DX21 
 define KFlightToggleFrameShiftDrive     DX22
@@ -17,6 +24,7 @@ define KTargetHighestThreat             DX25
 define KTargetWingmansTarget            DX26
 define KTargetCycleHostileNext          DX27
 define KTargetCycleHostilePrevious      DX28
+
 
 //
 define KMiscToggleLandingGear           DX32 

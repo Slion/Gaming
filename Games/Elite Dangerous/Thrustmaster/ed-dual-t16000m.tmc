@@ -110,10 +110,10 @@ int MapKeys()
     // - Map our hat
     // Short: Show comms UI
     // Long: Toggle mapping mode
-    MapKeyLong(&LEFT, H1U, DX16, EXEC("ToggleMappingMode();")); // Up
-	MapKey(&LEFT, H1R, DX17); // 
-	MapKey(&LEFT, H1D, DX18);
-	MapKey(&LEFT, H1L, DX19);
+    MapKeyLong(&LEFT, H1U, KModeSwitchPanelComms, EXEC("ToggleMappingMode();")); // Up
+	MapKeyLong(&LEFT, H1R, KModeSwitchPanelSystems, KModeSwitchMapGalaxy); // Right
+	MapKey(&LEFT, H1D, KModeSwitchPanelRole); // Down
+	MapKeyLong(&LEFT, H1L, KModeSwitchPanelTarget, KModeSwitchMapSystem); // Left
 
     // - Map trigger and thumb stick buttons	
     MapKey(&LEFT, TS1, KWeaponsFireSecondary); // Trigger
