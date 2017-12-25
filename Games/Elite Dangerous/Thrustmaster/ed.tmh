@@ -15,6 +15,9 @@ define KTargetCycleNext                 DX23
 define KTargetCyclePrevious             DX24
 define KTargetHighestThreat             DX25
 define KTargetWingmansTarget            DX26
+define KTargetCycleHostileNext          DX27
+define KTargetCycleHostilePrevious      DX28
+
 //
 define KMiscToggleLandingGear           DX32 
 

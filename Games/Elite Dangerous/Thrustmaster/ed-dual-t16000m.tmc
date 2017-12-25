@@ -19,6 +19,11 @@ alias RIGHT;
 // Handle to our left hand joystick
 alias LEFT;
 
+// ---- Mapping mode management ----
+define KMappingModeDefault 0
+define KMappingModeCombat 1
+int iMappingMode = KMappingModeDefault;
+// ----
 
 //
 // Entry point
@@ -103,8 +108,10 @@ int MapKeys()
 
     // -------- Left joystick --------
     // - Map our hat
-    MapKey(&LEFT, H1U, DX16);
-	MapKey(&LEFT, H1R, DX17);
+    // Short: Show comms UI
+    // Long: Toggle mapping mode
+    MapKeyLong(&LEFT, H1U, DX16, EXEC("ToggleMappingMode();")); // Up
+	MapKey(&LEFT, H1R, DX17); // 
 	MapKey(&LEFT, H1D, DX18);
 	MapKey(&LEFT, H1L, DX19);
 
@@ -114,100 +121,46 @@ int MapKeys()
     // Long: Toggle Frame Shift Drive
 	MapKeyLong(&LEFT, TS2, KFlightEngineBoost, KFlightToggleFrameShiftDrive); // Thumb
     //
+    MapKeysDefault();
+    // --------
+    }
+    
+//
+// Map combat mode keys.
+//
+int MapKeysCombat()
+    {
+    printf("Combat mode enabled\xa");    
+    // Targeting switch to hostile only
+    MapKeyLong(&LEFT, TS3, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
+	MapKeyLong(&LEFT, TS4, KTargetCycleHostileNext, KTargetHighestThreat); // Thumb right	       
+    }
+
+//
+// Map default mode keys.
+//
+int MapKeysDefault()
+    {
+    printf("Default mode enabled\xa");    
+    // Targeting switch to all targets
 	MapKeyLong(&LEFT, TS3, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
 	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetHighestThreat); // Thumb right	
-	// --------
     }
 
 
 //
+// Switch between mapping modes
 //
-//
-int DoMwoMapping()
-{
-	// AXES Mapping----------------------------------------------------
-	
-    DoMapAxis();
-		
-	//AXES Curve configuration------------------------------------------
-	
-//	SetSCurve(&Joystick, JOYX, 
-//5,  //Left Deadzone set to 5% 
-//2,  //Center Deadzone set to 2%
-//5,  //Right Deadzone set to 5% 
-//3,  //Curve set to 3
-//0  //Scale/zoom neutral 
-//);
-
-	
-	//1st T-16000M
-	SetSCurve(&RIGHT, JOYX, 0, 50, 0, 0, 0);
-	SetSCurve(&RIGHT, JOYY, 30, 10, 30, 0, 0);
-	SetSCurve(&RIGHT, RUDDER, 0, 0, 0, 0, 0);
-	
-	
-	//2nd T-16000M
-	SetSCurve(&LEFT, JOYX, 0, 0, 0, 10, 0);
-	SetSCurve(&LEFT, JOYY, 0, 0, 0, 10, 0);
-	SetSCurve(&LEFT, RUDDER, 0, 0, 0, 0, 0);
-	
-	//BUTTON MAPPING----------------------------------------------------
-	
-	//1st T-16000M
-	MapKey(&RIGHT, TS1, DX1); 
-	MapKey(&RIGHT, TS2, DX2); 
-	MapKey(&RIGHT, TS3, DX3); 
-	MapKey(&RIGHT, TS4, DX4); 
-	MapKey(&RIGHT, B5, DX5);
-	MapKey(&RIGHT, B6, DX6);
-	MapKey(&RIGHT, B7, DX7);
-	MapKey(&RIGHT, B8, DX8);
-	MapKey(&RIGHT, B9, DX9);
-	MapKey(&RIGHT, B10, DX10);
-	MapKey(&RIGHT, B11, DX11);
-	MapKey(&RIGHT, B12, DX12);
-	MapKey(&RIGHT, B13, DX13);
-	MapKey(&RIGHT, B14, DX14);
-	MapKey(&RIGHT, B15, DX15);
-	MapKey(&RIGHT, B16, DX16);
-//
-//	MapKey(&RIGHT, H1U, DX29);
-//	MapKey(&RIGHT, H1D, DX30);
-//	MapKey(&RIGHT, H1L, DX31);
-//	MapKey(&RIGHT, H1R, DX32);
-
-	MapKey(&RIGHT, H1U, DXHATUP);
-	MapKey(&RIGHT, H1D, DXHATDOWN);
-	MapKey(&RIGHT, H1L, DXHATLEFT);
-	MapKey(&RIGHT, H1R, DXHATRIGHT);
-
-	
-	//2nd T-16000M
-	MapKey(&LEFT, TS1, DX17); 
-	MapKey(&LEFT, TS2, DX18); 
-	MapKey(&LEFT, TS3, DX19); 
-	MapKey(&LEFT, TS4, DX20); 
-	MapKey(&LEFT, B5, DX21);
-	MapKey(&LEFT, B6, DX22);
-	MapKey(&LEFT, B7, DX23);
-	MapKey(&LEFT, B8, DX24);
-	MapKey(&LEFT, B9, DX25);
-	MapKey(&LEFT, B10, DX26);
-	MapKey(&LEFT, B11, DX27);
-	MapKey(&LEFT, B12, DX28);
-	MapKey(&LEFT, B13, 0);
-	MapKey(&LEFT, B14, 0);
-	MapKey(&LEFT, B15, 0);
-	MapKey(&LEFT, B16, 0);
-//
-	//MapKey(&LEFT, H1U, DXHATUP);
-	//MapKey(&LEFT, H1D, DXHATDOWN);
-	//MapKey(&LEFT, H1L, DXHATLEFT);
-	//MapKey(&LEFT, H1R, DXHATRIGHT);
-
-	MapKey(&LEFT, H1U, DX29);
-	MapKey(&LEFT, H1D, DX30);
-	MapKey(&LEFT, H1L, DX31);
-	MapKey(&LEFT, H1R, DX32);
-
-}
+int ToggleMappingMode()
+    {
+    if (iMappingMode==KMappingModeDefault)
+        {
+        MapKeysCombat();
+        iMappingMode = KMappingModeCombat;
+        }
+    else
+        {
+        MapKeysDefault();
+        iMappingMode = KMappingModeDefault;
+        }
+    }
