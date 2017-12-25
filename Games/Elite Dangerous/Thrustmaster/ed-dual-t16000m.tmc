@@ -108,12 +108,8 @@ int MapKeys()
 
     // -------- Left joystick --------
     // - Map our hat
-    // Short: Show comms UI
-    // Long: Toggle mapping mode
-    MapKeyLong(&LEFT, H1U, KModeSwitchPanelComms, EXEC("ToggleMappingMode();")); // Up
-	MapKeyLong(&LEFT, H1R, KModeSwitchPanelSystems, KModeSwitchMapGalaxy); // Right
-	MapKey(&LEFT, H1D, KModeSwitchPanelRole); // Down
-	MapKeyLong(&LEFT, H1L, KModeSwitchPanelTarget, KModeSwitchMapSystem); // Left
+    MapKeysLeftHat(H1U,H1R,H1D,H1L); // Actual hat
+    MapKeysLeftHat(B12,B14,B15,B16); // Also mapped on the base to avoid touching the stick when using fixed throttled 
 
     // - Map trigger and thumb stick buttons	
     MapKey(&LEFT, TS1, KWeaponsFireSecondary); // Trigger
@@ -121,10 +117,24 @@ int MapKeys()
     // Long: Toggle Frame Shift Drive
 	MapKeyLong(&LEFT, TS2, KFlightEngineBoost, KFlightToggleFrameShiftDrive); // Thumb
     //
-    MapKeysDefault();
-    // --------
+    MapKeysDefault();    
+    // --------    
     }
-    
+
+//
+// Map functions of the left hat to the given hardware buttons.
+//
+int MapKeysLeftHat(int aUp, int aRight, int aDown, int aLeft)
+    {
+    // Short: Show comms UI
+    // Long: Toggle mapping mode
+    MapKeyLong(&LEFT, aUp, KModeSwitchPanelComms, EXEC("ToggleMappingMode();")); // Up
+	MapKeyLong(&LEFT, aRight, KModeSwitchPanelSystems, KModeSwitchMapGalaxy); // Right
+	MapKey(&LEFT, aDown, KModeSwitchPanelRole); // Down
+	MapKeyLong(&LEFT, aLeft, KModeSwitchPanelTarget, KModeSwitchMapSystem); // Left    
+    }
+
+
 //
 // Map combat mode keys.
 //
@@ -134,6 +144,9 @@ int MapKeysCombat()
     // Targeting switch to hostile only
     MapKeyLong(&LEFT, TS3, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
 	MapKeyLong(&LEFT, TS4, KTargetCycleHostileNext, KTargetHighestThreat); // Thumb right	       
+    // Base duplicates
+    MapKeyLong(&LEFT, B11, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
+	MapKeyLong(&LEFT, B13, KTargetCycleHostileNext, KTargetHighestThreat); // Thumb right	           
     }
 
 //
@@ -145,6 +158,9 @@ int MapKeysDefault()
     // Targeting switch to all targets
 	MapKeyLong(&LEFT, TS3, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
 	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetHighestThreat); // Thumb right	
+    // Base duplicates
+	MapKeyLong(&LEFT, B11, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
+	MapKeyLong(&LEFT, B13, KTargetCycleNext, KTargetHighestThreat); // Thumb right	    
     }
 
 
