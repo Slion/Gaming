@@ -309,7 +309,7 @@
 	</CyclePreviousTarget>
 	<SelectHighestThreat>
 		<Primary Device="Keyboard" Key="Key_H" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_25" />
 	</SelectHighestThreat>
 	<CycleNextHostileTarget>
 		<Primary Device="{NoDevice}" Key="" />
@@ -333,7 +333,7 @@
 	</TargetWingman2>
 	<SelectTargetsTarget>
 		<Primary Device="Keyboard" Key="Key_0" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_26" />
 	</SelectTargetsTarget>
 	<WingNavLock>
 		<Primary Device="Keyboard" Key="Key_Minus" />

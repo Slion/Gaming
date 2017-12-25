@@ -12,15 +12,13 @@
 // System include
 include "target.tmh"
 // User include
-include "ed.ttm"
+include "ed.tmh"
 
 // Handle to our right hand joystick
 alias RIGHT;
 // Handle to our left hand joystick
 alias LEFT;
 
-// Define long press delay
-define KLongPressDelay 500
 
 //
 // Entry point
@@ -88,17 +86,20 @@ int MapAxes()
 int MapKeys()
     {
     // -------- Right joystick --------
-    // Map our hat
+    // - Map our hat
     MapKey(&RIGHT, H1U, DXHATUP);
 	MapKey(&RIGHT, H1R, DXHATRIGHT);	
 	MapKey(&RIGHT, H1D, DXHATDOWN);
 	MapKey(&RIGHT, H1L, DXHATLEFT);
 		
-	// Map trigger and thumb stick buttons	
-	MapKey(&RIGHT, TS1, KFirePrimaryWeapon); 
-	MapKey(&RIGHT, TS2, KDeployHardpoints); 
-	MapKey(&RIGHT, TS3, Target); 
-	MapKey(&RIGHT, TS4, KNextWeaponGroup);
+	// - Map trigger and thumb stick buttons	
+	MapKey(&RIGHT, TS1, KWeaponsFirePrimary); // Trigger
+	// Short: Toggle Hardpoints
+    // Long: Toggle Landing Gear
+	MapKeyLong(&RIGHT, TS2, KWeaponsToggleHardpoints, KMiscToggleLandingGear); // Thumb
+	MapKey(&RIGHT, TS3, KTargetSelect); // Thumb left
+	MapKey(&RIGHT, TS4, KWeaponsCycleFireGroupNext); // Thumb right
+    // --------
 
     // -------- Left joystick --------
     // - Map our hat
@@ -108,16 +109,20 @@ int MapKeys()
 	MapKey(&LEFT, H1L, DX19);
 
     // - Map trigger and thumb stick buttons	
-    MapKey(&LEFT, TS1, KFireSecondaryWeapon); // Trigger
+    MapKey(&LEFT, TS1, KWeaponsFireSecondary); // Trigger
     // Short: Engine Boost
     // Long: Toggle Frame Shift Drive
-	MapKey(&LEFT, TS2, TEMPO(KEngineBoost,KToggleFrameShiftDrive,KLongPressDelay));
-    //	
-	MapKey(&LEFT, TS3, TEMPO(KPreviousTarget,KToggleLandingGear,KLongPressDelay)); 
-	MapKey(&LEFT, TS4, KNextTarget);	
+	MapKeyLong(&LEFT, TS2, KFlightEngineBoost, KFlightToggleFrameShiftDrive); // Thumb
+    //
+	MapKeyLong(&LEFT, TS3, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
+	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetHighestThreat); // Thumb right	
+	// --------
     }
 
 
+//
+//
+//
 int DoMwoMapping()
 {
 	// AXES Mapping----------------------------------------------------

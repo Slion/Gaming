@@ -1,0 +1,33 @@
+//
+// Elite Dangerous header file
+// 
+
+// Assign virtual keys to game functionalities
+define KWeaponsFirePrimary              DX1
+define KWeaponsToggleHardpoints         DX2
+define KTargetSelect                    DX3 
+define KWeaponsCycleFireGroupNext       DX4
+//
+define KWeaponsFireSecondary            DX20 
+define KFlightEngineBoost               DX21 
+define KFlightToggleFrameShiftDrive     DX22
+define KTargetCycleNext                 DX23
+define KTargetCyclePrevious             DX24
+define KTargetHighestThreat             DX25
+define KTargetWingmansTarget            DX26
+//
+define KMiscToggleLandingGear           DX32 
+
+// ---- Long press management ----
+// Define long press delay
+define KDefaultLongPressDelay 500
+int iLongPressDelay = KDefaultLongPressDelay;
+
+//
+// Maps a physical button with two virtual buttons.
+// One is trigger on short press the other on long press.
+// 
+int MapKeyLong(alias aDevice, int aPhysicalButton, int aVirtualButton, int aLongVirtualButton)
+    {
+    MapKey(&aDevice, aPhysicalButton, TEMPO(aVirtualButton,aLongVirtualButton,iLongPressDelay));    
+    }
