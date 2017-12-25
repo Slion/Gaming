@@ -272,11 +272,11 @@
 	</ToggleFlightAssist>
 	<UseBoostJuice>
 		<Primary Device="Keyboard" Key="Key_Tab" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_4" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_23" />
 	</UseBoostJuice>
 	<HyperSuperCombination>
 		<Primary Device="Keyboard" Key="Key_J" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_21" />
 	</HyperSuperCombination>
 	<Supercruise>
 		<Primary Device="{NoDevice}" Key="" />
@@ -301,7 +301,7 @@
 	</SelectTarget>
 	<CycleNextTarget>
 		<Primary Device="Keyboard" Key="Key_G" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_22" />
 	</CycleNextTarget>
 	<CyclePreviousTarget>
 		<Primary Device="{NoDevice}" Key="" />
@@ -357,11 +357,11 @@
 	</PrimaryFire>
 	<SecondaryFire>
 		<Primary Device="Mouse" Key="Mouse_2" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_2" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_20" />
 	</SecondaryFire>
 	<CycleFireGroupNext>
 		<Primary Device="Keyboard" Key="Key_N" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_5" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_4" />
 	</CycleFireGroupNext>
 	<CycleFireGroupPrevious>
 		<Primary Device="{NoDevice}" Key="" />
@@ -369,9 +369,9 @@
 	</CycleFireGroupPrevious>
 	<DeployHardpointToggle>
 		<Primary Device="Keyboard" Key="Key_U" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_8" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_2" />
 	</DeployHardpointToggle>
-	<DeployHardpointsOnFire Value="1" />
+	<DeployHardpointsOnFire Value="0" />
 	<ToggleButtonUpInput>
 		<Primary Device="Keyboard" Key="Key_Delete" />
 		<Secondary Device="{NoDevice}" Key="" />
@@ -468,11 +468,11 @@
 	<UIFocusMode Value="Bindings_FocusModeHold" />
 	<FocusLeftPanel>
 		<Primary Device="Keyboard" Key="Key_1" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_19" />
 	</FocusLeftPanel>
 	<FocusCommsPanel>
 		<Primary Device="Keyboard" Key="Key_2" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_16" />
 	</FocusCommsPanel>
 	<FocusOnTextEntryField Value="1" />
 	<QuickCommsPanel>
@@ -481,11 +481,11 @@
 	</QuickCommsPanel>
 	<FocusRadarPanel>
 		<Primary Device="Keyboard" Key="Key_3" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_18" />
 	</FocusRadarPanel>
 	<FocusRightPanel>
 		<Primary Device="Keyboard" Key="Key_4" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_17" />
 	</FocusRightPanel>
 	<LeftPanelFocusOptions Value="" />
 	<CommsPanelFocusOptions Value="" />
@@ -540,7 +540,7 @@
 	</UI_Select>
 	<UI_Back>
 		<Primary Device="Keyboard" Key="Key_Backspace" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_2" />
 	</UI_Back>
 	<UI_Toggle>
 		<Primary Device="Keyboard" Key="Key_Equals" />
@@ -548,7 +548,7 @@
 	</UI_Toggle>
 	<CycleNextPanel>
 		<Primary Device="Keyboard" Key="Key_E" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_2" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_4" />
 	</CycleNextPanel>
 	<CyclePreviousPanel>
 		<Primary Device="Keyboard" Key="Key_Q" />

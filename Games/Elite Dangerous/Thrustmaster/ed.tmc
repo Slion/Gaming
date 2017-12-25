@@ -1,11 +1,30 @@
-include "target.tmh"
-include "ed.ttm"  //call the other file with keystrokes
+//
+// Elite Dangerous Thrustmaster TARGET script for Dual T16000M setup.
+// Could easily be adapted for other similar setups.
+//
+// Right joystick controls pitch, roll and yaw.
+// Left joysticks controls throttle, both with stick and slider, as well as lateral and vertical thrusters.
+//
+// That script was designed not to hardcode keyboard keys.
+// Instead we use actual joystick buttons.
+//
 
-alias RIGHT;	// second T16KR handle, which will be used all mapping commands
+// System include
+include "target.tmh"
+// User include
+include "ed.ttm"
+
+// Handle to our right hand joystick
+alias RIGHT;
+// Handle to our left hand joystick
 alias LEFT;
 
+//
+// Entry point
+//
 int main()
     {
+    // We ain't using any of the following hardware so we just ignore them.
     Configure(&HCougar, MODE_EXCLUDED);
     Configure(&Joystick, MODE_EXCLUDED);
     Configure(&Throttle, MODE_EXCLUDED);
@@ -13,34 +32,28 @@ int main()
     Configure(&RMFD, MODE_EXCLUDED);
     Configure(&TWCSThrottle, MODE_EXCLUDED);
     Configure(&TFRPRudder, MODE_EXCLUDED);
-
+    
+    // Hook in our event handler    
 	if(Init(&EventHandle)) return 1;
 	
-	// Swap those as needed
+	// Fetch our joysticks.
+	// Swap them if you want it the other way around.
 	&LEFT = &T16000L;
 	&RIGHT = &T16000;
 	
-	//&RIGHT = GetIndexJoy(SelectUsbDevice("VID_044F&PID_B10A"));		// Expect a second T.16000 to be plugged on USB
-	
-	//DoMwoMapping();
-	
-	//DoMapAxis();
-	
-	//MapKey(&RIGHT, TS1, DX2);
-    //MapKey(&LEFT, TS1, DX3);
-    
+    // Specify our mappings    
     MapAxes();
     MapKeys();
 
     }
 
+//
+// Event Handler
+//
 int EventHandle(int type, alias o, int x)
 {
    DefaultMapping(&o, x);
    //add event handling code here
-   
-   //Needed for second hat mapping to work
-   //if((&o == &RIGHT) & (x == HAT)) Hat2Btn(&o, HAT, H1U, &h16000Status);      // generate the HAT virtual keys
 }
 
 
