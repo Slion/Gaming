@@ -2,6 +2,23 @@
 // Not currently used for Elite Dangerous.
 // Macro Files For Mechwarrior online
 
+
+//
+
+define KFirePrimaryWeapon DX1
+define KDeployHardpoints DX2
+define KTarget DX3 
+define KNextWeaponGroup DX4
+
+
+define KFireSecondaryWeapon DX20 
+define KEngineBoost DX21 
+define KToggleFrameShiftDrive DX22
+define KNextTarget DX23
+define KPreviousTarget DX24
+define KToggleLandingGear DX32 
+
+
 // Weapon Group******************************************
 define Fire_Group_1 USB[0x1E] // 1
 define Fire_group_2 USB[0x1F] // 2

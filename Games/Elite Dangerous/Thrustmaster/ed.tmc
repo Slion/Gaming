@@ -19,6 +19,9 @@ alias RIGHT;
 // Handle to our left hand joystick
 alias LEFT;
 
+// Define long press delay
+define KLongPressDelay 500
+
 //
 // Entry point
 //
@@ -92,26 +95,26 @@ int MapKeys()
 	MapKey(&RIGHT, H1L, DXHATLEFT);
 		
 	// Map trigger and thumb stick buttons	
-	MapKey(&RIGHT, TS1, DX1); 
-	MapKey(&RIGHT, TS2, DX2); 
-	MapKey(&RIGHT, TS3, DX3); 
-	MapKey(&RIGHT, TS4, DX4);
+	MapKey(&RIGHT, TS1, KFirePrimaryWeapon); 
+	MapKey(&RIGHT, TS2, KDeployHardpoints); 
+	MapKey(&RIGHT, TS3, Target); 
+	MapKey(&RIGHT, TS4, KNextWeaponGroup);
 
     // -------- Left joystick --------
-    // Define button offset for left joystick
-    int offset = DX16;
+    // - Map our hat
+    MapKey(&LEFT, H1U, DX16);
+	MapKey(&LEFT, H1R, DX17);
+	MapKey(&LEFT, H1D, DX18);
+	MapKey(&LEFT, H1L, DX19);
 
-    // Map our hat
-    MapKey(&LEFT, H1U, offset+0);
-	MapKey(&LEFT, H1R, offset+1);
-	MapKey(&LEFT, H1D, offset+2);
-	MapKey(&LEFT, H1L, offset+3);
-
-    // Map trigger and thumb stick buttons	
-    MapKey(&LEFT, TS1, offset+4); 
-	MapKey(&LEFT, TS2, offset+5); 
-	MapKey(&LEFT, TS3, offset+6); 
-	MapKey(&LEFT, TS4, offset+7);	
+    // - Map trigger and thumb stick buttons	
+    MapKey(&LEFT, TS1, KFireSecondaryWeapon); // Trigger
+    // Short: Engine Boost
+    // Long: Toggle Frame Shift Drive
+	MapKey(&LEFT, TS2, TEMPO(KEngineBoost,KToggleFrameShiftDrive,KLongPressDelay));
+    //	
+	MapKey(&LEFT, TS3, TEMPO(KPreviousTarget,KToggleLandingGear,KLongPressDelay)); 
+	MapKey(&LEFT, TS4, KNextTarget);	
     }
 
 

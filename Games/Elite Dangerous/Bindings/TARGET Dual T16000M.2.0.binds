@@ -272,11 +272,11 @@
 	</ToggleFlightAssist>
 	<UseBoostJuice>
 		<Primary Device="Keyboard" Key="Key_Tab" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_23" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_21" />
 	</UseBoostJuice>
 	<HyperSuperCombination>
 		<Primary Device="Keyboard" Key="Key_J" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_21" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_22" />
 	</HyperSuperCombination>
 	<Supercruise>
 		<Primary Device="{NoDevice}" Key="" />
@@ -301,11 +301,11 @@
 	</SelectTarget>
 	<CycleNextTarget>
 		<Primary Device="Keyboard" Key="Key_G" />
-		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_22" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_23" />
 	</CycleNextTarget>
 	<CyclePreviousTarget>
 		<Primary Device="{NoDevice}" Key="" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_24" />
 	</CyclePreviousTarget>
 	<SelectHighestThreat>
 		<Primary Device="Keyboard" Key="Key_H" />
@@ -429,7 +429,7 @@
 	</EjectAllCargo>
 	<LandingGearToggle>
 		<Primary Device="Keyboard" Key="Key_Insert" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_32" />
 	</LandingGearToggle>
 	<MicrophoneMute>
 		<Primary Device="Keyboard" Key="Key_BackSlash" />
