@@ -117,7 +117,10 @@ int MapKeys()
     // Long: Toggle Frame Shift Drive
 	MapKeyLong(&LEFT, TS2, KFlightEngineBoost, KFlightToggleFrameShiftDrive); // Thumb
     //
-    MapKeysDefault();    
+    MapKeysDefault();
+    
+    // Base direct access to FSD, handy for quick drop out 
+    MapKey(&LEFT, B8, KFlightToggleFrameShiftDrive);
     // --------    
     }
 
