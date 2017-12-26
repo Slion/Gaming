@@ -1,6 +1,6 @@
-# Purpose & scrope
+# Purpose & Scope
 We version here various resources related to gaming, typically relevant for Windows PC gaming. 
-It ranges from AutoIt scripts enabling multimonitor gaming to Thrusmaster TARGET scripts and accompaning game bindings enabling advanced game controllers. Basic subject topic knowledge is assumed.
+It ranges from AutoIt scripts enabling multi-monitor gaming to Thrusmaster TARGET scripts and accompaning game bindings enabling advanced game controllers. Basic subject topic knowledge is assumed.
 
 # Games
 ## Elite Dangerous
