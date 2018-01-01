@@ -1,0 +1,117 @@
+//
+// Contains WIN32 utilities
+// 
+
+int dllKernel32=0;
+//int dllUser32=0;
+
+
+define GENERIC_READ                     0x80000000
+define GENERIC_WRITE                    0x40000000
+define GENERIC_EXECUTE                  0x20000000
+define GENERIC_ALL                      0x10000000
+
+define FILE_SHARE_READ                  0x00000001
+define FILE_SHARE_WRITE                 0x00000002
+define FILE_SHARE_DELETE                0x00000004
+
+define CREATE_NEW                       1
+define CREATE_ALWAYS                    2
+define OPEN_EXISTING                    3
+define OPEN_ALWAYS                      4
+define TRUNCATE_EXISTING                5
+
+define ERROR_FILE_NOT_FOUND             2
+define ERROR_NO_MORE_FILES              18
+
+define MAX_PATH             260
+define INVALID_HANDLE_VALUE -1
+define INVALID_FILE_SIZE    0xFFFFFFFF
+
+//
+// ---- DLL loaded functions ----
+//
+
+//
+//
+//
+int CreateFile(
+  int lpFileName,
+  int dwDesiredAccess,
+  int dwShareMode,
+  int lpSecurityAttributes,
+  int dwCreationDisposition,
+  int dwFlagsAndAttributes,
+  int hTemplateFile
+)
+    {
+    // Lazy loading of function from DLL only happens the first team it is called
+    Map(&CreateFile, GetProcAddress(dllKernel32, "CreateFileA"));
+    return CreateFile(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+    }
+
+//
+//
+//
+int WriteFile(
+  int hFile,
+  int lpBuffer,
+  int nNumberOfBytesToWrite,
+  int lpNumberOfBytesWritten,
+  int lpOverlapped
+)
+    {
+    // The function pointer fetch will happen only once since we mapped it
+    Map(&WriteFile, GetProcAddress(dllKernel32, "WriteFile"));
+    return WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);    
+    }
+    
+//
+//
+//
+int GetTempPath(int aLength, int aPath)
+    {
+    Map(&GetTempPath, GetProcAddress(dllKernel32, "GetTempPathA"));
+    return GetTempPath(aLength,aPath);
+    }
+    
+    
+//
+// Most certainly unusable from scripting environment since other system calls must be interfering.
+// Still we left it here in case we ever want to give it another try.
+//
+int GetLastError()
+    {
+    printf("Mapping GetLastError\xa");
+    Map(&GetLastError, GetProcAddress(dllKernel32, "GetLastError"));
+    return GetLastError();
+    }
+
+// ---- Core ----
+
+//
+// Load the libraries the above functions will need.
+//
+int LoadLibraries()
+    {
+    // Load the DLLs we will need
+    dllKernel32 = LoadLibrary("kernel32.dll");
+    //dllUser32 = LoadLibrary("user32.dll");    
+    }
+    
+//
+// ---- Utilities ----
+//
+
+//
+// Leaving this here for reference.
+//
+int PrintTempPath()
+    {        
+    int length=Dim(&tempPath,256);
+    length = GetTempPath(256,&&tempPath);
+    printf("Temp path %s\xa",&tempPath);
+    }
+
+    
+    

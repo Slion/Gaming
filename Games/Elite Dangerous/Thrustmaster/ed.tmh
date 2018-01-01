@@ -25,9 +25,9 @@ define KTargetWingmansTarget            DX26
 define KTargetCycleHostileNext          DX27
 define KTargetCycleHostilePrevious      DX28
 define KTargetNextSystemInRoute         DX29
-define KMiscDecreaseSensorZoom          DX30
-define KMiscIncreaseSensorZoom          DX31
-define KMiscToggleLandingGear           DX32 
+define KMiscSensorZoomDecrease          DX30
+define KMiscSensorZoomIncrease          DX31
+define KMiscLandingGearToggle           DX32 
 
 // ---- Long press management ----
 // Define long press delay

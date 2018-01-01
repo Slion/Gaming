@@ -7,7 +7,7 @@ $sw.WriteLine("Write-Host 'Hi there!'");
 # Set windows title
 $sw.WriteLine("(Get-Host).UI.RawUI.WindowTitle = 'Thrustmaster TARGET'");
 
-$sw.WriteLine('exit'); 
+# $sw.WriteLine('exit'); 
  
 $sw.Dispose(); 
 $pipe.Dispose();
