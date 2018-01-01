@@ -24,12 +24,98 @@ define KMappingModeDefault 0
 define KMappingModeCombat 1
 int iMappingMode = KMappingModeDefault;
 // ----
+char tempPath;
+int dllKernel32=0;
+int dllUser32=0;
+
+
+
+// DLL loaded functions
+int Beep(int f, int d){}; 
+int MessageBeep(int f){};
+int GetTempPath(int aLength, int aPath){};
+
+// TODO: Adjust this for your local configuration
+alias folder="C:\\Dev\\GitHub\\Slion\\Gaming\\Games\\Elite Dangerous\\Thrustmaster\\";
+alias pipeFileName="\\\\.\\pipe\\NamedPipeTest";
+
+
+define GENERIC_READ                     0x80000000
+define GENERIC_WRITE                    0x40000000
+define GENERIC_EXECUTE                  0x20000000
+define GENERIC_ALL                      0x10000000
+
+define FILE_SHARE_READ                  0x00000001
+define FILE_SHARE_WRITE                 0x00000002
+define FILE_SHARE_DELETE                0x00000004
+
+define CREATE_NEW                       1
+define CREATE_ALWAYS                    2
+define OPEN_EXISTING                    3
+define OPEN_ALWAYS                      4
+define TRUNCATE_EXISTING                5
+
+
+int CreateFile(
+  int lpFileName,
+  int dwDesiredAccess,
+  int dwShareMode,
+  int lpSecurityAttributes,
+  int dwCreationDisposition,
+  int dwFlagsAndAttributes,
+  int hTemplateFile
+)
+    {
+    // The function pointer fetch will happen only once since we mapped it
+    Map(&CreateFile, GetProcAddress(dllKernel32, "CreateFileA"));
+    return CreateFile(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+    }
+
+
+int WriteFile(
+  int hFile,
+  int lpBuffer,
+  int nNumberOfBytesToWrite,
+  int lpNumberOfBytesWritten,
+  int lpOverlapped
+)
+    {
+    // The function pointer fetch will happen only once since we mapped it
+    Map(&WriteFile, GetProcAddress(dllKernel32, "WriteFile"));
+    return WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);    
+    }
+    
+
+
+int GetLastError()
+    {
+    printf("Mapping GetLastError\xa");
+    Map(&GetLastError, GetProcAddress(dllKernel32, "GetLastError"));
+    return GetLastError();
+    }
 
 //
 // Entry point
 //
 int main()
     {
+    // Load the DLLs we will need
+    dllKernel32 = LoadLibrary("kernel32.dll");
+    dllUser32 = LoadLibrary("user32.dll");
+    
+    GetLastError();
+    int fileHandle = CreateFile(&&pipeFileName,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,0,OPEN_EXISTING,0,0);
+    printf("File handle: %d \xa",fileHandle);
+    alias exitMsg="exit\xa";
+    int written=0;
+    int length=strlen(&exitMsg);
+    WriteFile(fileHandle,&&exitMsg,length,&&written,0);
+    printf("Written: %d \xa",written);
+    
+    int error = GetLastError();
+    printf("Error: %d \xa",error);
+    
+    
     // We ain't using any of the following hardware so we just ignore them.
     Configure(&HCougar, MODE_EXCLUDED);
     Configure(&Joystick, MODE_EXCLUDED);
@@ -42,6 +128,8 @@ int main()
     // Hook in our event handler    
 	if(Init(&EventHandle)) return 1;
 	
+    
+	
 	// Fetch our joysticks.
 	// Swap them if you want it the other way around.
 	&LEFT = &T16000L;
@@ -50,6 +138,24 @@ int main()
     // Specify our mappings    
     MapAxes();
     MapKeys();
+    
+    
+
+    Map(&Beep, GetProcAddress(dllKernel32, "Beep"));
+    Map(&GetTempPath, GetProcAddress(dllKernel32, "GetTempPathA"));    
+    Map(&MessageBeep, GetProcAddress(dllUser32, "MessageBeep"));
+
+    //tempPath = malloc(256);
+    int length=Dim(&tempPath,256);
+    printf("Yup %d \xa",length);
+    length = GetTempPath(256,&&tempPath);
+    //printf("Yup %d \xa",GetProcAddress(dllKernel32, "GetTempPathA"));
+    //printf(&tempPath);
+    
+    CreateScripts();
+    
+    StartMonitor();
+    
 
     }
 
@@ -58,6 +164,7 @@ int main()
 //
 int EventHandle(int type, alias o, int x)
 {
+   printf("Event %d\xa",type);
    DefaultMapping(&o, x);
    //add event handling code here
 }
@@ -102,7 +209,7 @@ int MapKeys()
 	// Short: Toggle Hardpoints
     // Long: Toggle Landing Gear
 	MapKeyLong(&RIGHT, TS2, KWeaponsToggleHardpoints, KMiscToggleLandingGear); // Thumb
-	MapKey(&RIGHT, TS3, KTargetSelect); // Thumb left
+	MapKeyLong(&RIGHT, TS3, KTargetSelect, KTargetHighestThreat); // Thumb left
 	MapKey(&RIGHT, TS4, KWeaponsCycleFireGroupNext); // Thumb right
     // --------
 
@@ -117,10 +224,13 @@ int MapKeys()
     // Long: Toggle Frame Shift Drive
 	MapKeyLong(&LEFT, TS2, KFlightEngineBoost, KFlightToggleFrameShiftDrive); // Thumb
     //
-    MapKeysDefault();
+    MapKeysModeDefault();
     
-    // Base direct access to FSD, handy for quick drop out 
-    MapKey(&LEFT, B8, KFlightToggleFrameShiftDrive);
+    // Base direct access to FSD, handy for quick drop out, long press give you boost 
+    MapKeyLong(&LEFT, B8, KFlightToggleFrameShiftDrive, KFlightEngineBoost);
+    //
+    MapKey(&LEFT, B5, KMiscIncreaseSensorZoom);
+    MapKey(&LEFT, B10, KMiscDecreaseSensorZoom);
     // --------    
     }
 
@@ -141,29 +251,29 @@ int MapKeysLeftHat(int aUp, int aRight, int aDown, int aLeft)
 //
 // Map combat mode keys.
 //
-int MapKeysCombat()
+int MapKeysModeCombat()
     {
     printf("Combat mode enabled\xa");    
     // Targeting switch to hostile only
     MapKeyLong(&LEFT, TS3, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, TS4, KTargetCycleHostileNext, KTargetHighestThreat); // Thumb right	       
+	MapKeyLong(&LEFT, TS4, KTargetCycleHostileNext, KTargetNextSystemInRoute); // Thumb right	       
     // Base duplicates
     MapKeyLong(&LEFT, B11, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, B13, KTargetCycleHostileNext, KTargetHighestThreat); // Thumb right	           
+	MapKeyLong(&LEFT, B13, KTargetCycleHostileNext, KTargetNextSystemInRoute); // Thumb right	           
     }
 
 //
 // Map default mode keys.
 //
-int MapKeysDefault()
+int MapKeysModeDefault()
     {
     printf("Default mode enabled\xa");    
     // Targeting switch to all targets
 	MapKeyLong(&LEFT, TS3, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetHighestThreat); // Thumb right	
+	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetNextSystemInRoute); // Thumb right	
     // Base duplicates
 	MapKeyLong(&LEFT, B11, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, B13, KTargetCycleNext, KTargetHighestThreat); // Thumb right	    
+	MapKeyLong(&LEFT, B13, KTargetCycleNext, KTargetNextSystemInRoute); // Thumb right	    
     }
 
 
@@ -172,14 +282,67 @@ int MapKeysDefault()
 //
 int ToggleMappingMode()
     {
+    //system("spawn powershell.exe -NoProfile -NonInteractive -NoLogo -WindowStyle Minimized -Command [System.Console]::Beep(250, 200)");
+    //system("spawn cmd.exe /q /c powershell.exe -NoProfile -NonInteractive -NoLogo -WindowStyle Minimized -Command [System.Console]::Beep(250, 200)");
+    //system("spawn wscript.exe HiddenPowerShell.vbs");
+    DoBeep();
+    
     if (iMappingMode==KMappingModeDefault)
         {
-        MapKeysCombat();
+        // Switching to combat mode mapping
+        MapKeysModeCombat();
         iMappingMode = KMappingModeCombat;
         }
     else
         {
-        MapKeysDefault();
+        // Switching to default mode mapping
+        MapKeysModeDefault();
         iMappingMode = KMappingModeDefault;
         }
     }
+
+int DoBeep()
+    {
+    char cmd;
+    int length=Dim(&cmd,512);
+    strcat(&cmd,"spawn wscript.exe ");
+    strcat(&cmd,&tempPath);
+    //strcat(&cmd," \"[System.Console]::Beep(250, 200)\"");
+    printf("%s\xa",&cmd);
+    system(&cmd);
+    }
+
+int CreateScripts()
+    {
+    strcat(&tempPath,"HiddenPowerShell.vbs");
+    //printf(&tempPath);
+    int file = fopen(&tempPath,"w");
+    WriteLine(file,"Dim shell,command\xa");
+    WriteLine(file,"command = \"powershell.exe -nologo -Command \" & WScript.Arguments(0)\xa");
+    WriteLine(file,"Set shell = CreateObject(\"WScript.Shell\")\xa");
+    WriteLine(file,"shell.Run command,0\xa");
+    fclose(file);    
+    }
+    
+int WriteLine(int aFile, alias aLine)
+    {
+    return fwrite(&aLine,strlen(&aLine),1,aFile);    
+    }
+
+int StartMonitor()
+    {
+    char cmd;
+    int length=Dim(&cmd,512);
+    //strcat(&cmd,"spawn powershell.exe -NoLogo -NoExit -Command \"& {'C:\\Dev\\GitHub\\Slion\\Gaming\\Games\\Elite Dangerous\\Thrustmaster\\Monitor.ps1'}\"");
+    strcat(&cmd,"spawn powershell.exe -ExecutionPolicy Unrestricted -NonInteractive -NoLogo -NoExit -Command \"&'C:\\Dev\\GitHub\\Slion\\Gaming\\Games\\Elite Dangerous\\Thrustmaster\\Monitor.ps1' | Invoke-Expression\"");
+    //strcat(&cmd,"spawn powershell.exe -NoExit -File \"");
+    //strcat(&cmd,&folder);
+    //strcat(&cmd,"Monitor.ps1\"");
+    printf("%s\xa",&cmd);
+    system(&cmd);
+    }
+    
+int OpenPipe()
+    {
+    }
+

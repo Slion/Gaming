@@ -337,7 +337,7 @@
 	</SelectTargetsTarget>
 	<WingNavLock>
 		<Primary Device="Keyboard" Key="Key_Minus" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="Keyboard" Key="Key_Slash" />
 	</WingNavLock>
 	<CycleNextSubsystem>
 		<Primary Device="Keyboard" Key="Key_Y" />
@@ -349,7 +349,7 @@
 	</CyclePreviousSubsystem>
 	<TargetNextRouteSystem>
 		<Primary Device="{NoDevice}" Key="" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_29" />
 	</TargetNextRouteSystem>
 	<PrimaryFire>
 		<Primary Device="Mouse" Key="Mouse_1" />
