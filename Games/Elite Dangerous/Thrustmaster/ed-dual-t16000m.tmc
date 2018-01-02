@@ -227,8 +227,7 @@ int ToggleMappingMode()
 // @return KTrue upon success, KFalse otherwise.
 //
 int StartPowerShellServer()
-    {
-    
+    {    
     char cmd;
     int length=Dim(&cmd,512);
     //strcat(&cmd,"spawn powershell.exe -NoLogo -NoExit -Command \"& {'C:\\Dev\\GitHub\\Slion\\Gaming\\Games\\Elite Dangerous\\Thrustmaster\\Monitor.ps1'}\"");
@@ -239,7 +238,7 @@ int StartPowerShellServer()
     printf("%s\xa",&cmd);
     system(&cmd);
     
-    if (OpenPipe(KTrue))
+    if (WaitOpenPipe())
         {
         SendMessage("(Get-Host).UI.RawUI.WindowTitle='Thrustmaster TARGET'");
         SendMessage("Write-Host 'Thrustmaster TARGET'");
@@ -256,13 +255,48 @@ int StartPowerShellServer()
 //
 int IsPowerShellServerRunning()
     {
-    if (OpenPipe(KFalse))
+    if (OpenPipe())
         {
         ClosePipe();
         return KTrue;
         }
     
     return KFalse;    
+    }
+
+//
+// Open pipe and attempt to start server if needed.
+//
+int CheckOpenPipe()
+    {
+    // Try opening our pipe a couple of times
+    if (!OpenPipe())
+        {
+        if (!OpenPipe())
+            {
+            // Failed to open pipe, try starting the server again...
+            StartPowerShellServer();
+            // ...attempt to open our pipe one last time
+            return WaitOpenPipe();
+            }
+            
+        }
+    
+    return KTrue;        
+    }
+
+//
+// Open our PowerShell connection pipe.
+// @return KTrue on success, KFalse otherwise.
+int OpenPipe()
+    {
+    iPipe = CreateFile(&&pipeFileName,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,0,OPEN_EXISTING,0,0);        
+    if (iPipe != INVALID_HANDLE_VALUE)
+        {
+        return KTrue;
+        }
+        
+    return KFalse ;    
     }
 
 
@@ -277,25 +311,24 @@ int ClosePipe()
 
 //
 // Open our PowerShell connection pipe.
-// @param aVerbose Specify KTrue enable extra console output.
 // @return KTrue if the pipe was opened, KFalse otherwise.
 //
-int OpenPipe(int aVerbose)
-    {    
+int WaitOpenPipe()
+    {
     // Connect to our pipe, making sure we wait long enough for the server to come online
-    int attempts=10;    
-    if (aVerbose) printf("Connecting to PowerShell .");   
+    int attempts=30;    
+    printf("Connecting to PowerShell .");   
     // Double conditional in while statement did not work so we kept it simple and used break instead.
     // Looks like we are hitting some limitations of that scripting language.
     while (attempts>0)
         {
-        iPipe = CreateFile(&&pipeFileName,GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,0,OPEN_EXISTING,0,0);        
+        OpenPipe();        
         if (iPipe != INVALID_HANDLE_VALUE)
             {
             break;
             }
 
-        if (aVerbose) printf(".");
+        printf(".");
         attempts=attempts-1;
         Sleep(100);
         }    
@@ -308,7 +341,7 @@ int OpenPipe(int aVerbose)
         }
     
     // We have handshake
-    if (aVerbose) printf(" Success.\xa");
+    printf(" Success.\xa");
     return KTrue;
     }
 
@@ -333,7 +366,7 @@ int SendMessage(alias aMessage)
 //
 int BeepModeDefault()
     {
-    if (OpenPipe(KFalse))
+    if (CheckOpenPipe())
         {
         SendMessage("[System.Console]::Beep(400, 80)");
         SendMessage("[System.Console]::Beep(250, 80)");    
@@ -346,7 +379,7 @@ int BeepModeDefault()
 //
 int BeepModeCombat()
     {
-    if (OpenPipe(KFalse))
+    if (CheckOpenPipe())
         {
         SendMessage("[System.Console]::Beep(200, 80)");
         SendMessage("[System.Console]::Beep(300, 80)");
