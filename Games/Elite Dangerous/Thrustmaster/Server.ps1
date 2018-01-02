@@ -16,19 +16,39 @@ while ($true)
 	Write-Host 'Reading data...';
 	
 	$reader = new-object System.IO.StreamReader($pipe); 
+	
 	while ($pipe.IsConnected) 
 		{
 		#(($cmd= $sr.ReadLine()) -ne 'exit')
 		
-		$cmd = $reader.ReadLine();
-		if ($cmd -ne $null)
+		#$cmd = $reader.ReadLine();
+		
+		$task = $reader.ReadLineAsync();
+		
+		#while (($task.IsCompleted -ne $true) -and $pipe.IsConnected)
+		do
+		{	
+			Write-Host 'Waiting...';	
+			#$task.Wait(1000);
+			#Write-Host 'Done';	
+		}
+		while (($task.Wait(1000) -ne $true) -and $pipe.IsConnected)
+		
+		if ($task.Status -eq "RanToCompletion")
 			{
-			# Try invoke that command
-			Invoke-Expression $cmd;
-			#$ExecutionContext.InvokeCommand.ExpandString($cmd)
-			#$script = $ExecutionContext.InvokeCommand.NewScriptBlock($cmd);
-			#& $script;
+			Write-Host 'RanToCompletion';	
+			$cmd = $task.Result;
+			if ($cmd -ne $null)
+				{
+				# Try invoke that command
+				Invoke-Expression $cmd;
+				#$ExecutionContext.InvokeCommand.ExpandString($cmd)
+				#$script = $ExecutionContext.InvokeCommand.NewScriptBlock($cmd);
+				#& $script;
+				}
 			}
+		
+
 		} 
 	
 	# We lost connection.
@@ -39,27 +59,3 @@ while ($true)
 
 $reader.Dispose();
 $pipe.Dispose();
-
-exit;
-
-###########################################
-# TODO: Make it async at some point
-		$task = $reader.ReadLineAsync();
-		if ([System.Threading.Tasks.Task]::WhenAny($task, [System.Threading.Tasks.Task]::Delay(1000)) -eq $task)
-			{
-			Write-Host 'Complete!';
-			$cmd = $task.Result;
-			if ($cmd -ne $null)
-				{
-				# Try invoke that command
-				Invoke-Expression $cmd;
-				#$ExecutionContext.InvokeCommand.ExpandString($cmd)
-				#$script = $ExecutionContext.InvokeCommand.NewScriptBlock($cmd);
-				#& $script;
-				}			
-			}
-		else
-			{
-			Write-Host 'Timeout!';
-			#Timedout
-			}

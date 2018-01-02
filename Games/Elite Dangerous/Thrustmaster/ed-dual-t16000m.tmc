@@ -20,6 +20,12 @@ alias RIGHT;
 // Handle to our left hand joystick
 alias LEFT;
 
+// TODO: move to some header
+define KErrNone 0
+define KErrGeneral 1
+define KFalse 0
+define KTrue 1
+
 // ---- Mapping mode management ----
 define KMappingModeDefault 0
 define KMappingModeCombat 1
@@ -64,8 +70,11 @@ int main()
     MapAxes();
     MapKeys();
 
-    //
-    StartPowerShellServer();      
+    //Start PowerShell server if needed
+    if (!IsPowerShellServerRunning())
+        {
+        StartPowerShellServer();      
+        }
     }
 
 //
@@ -214,10 +223,12 @@ int ToggleMappingMode()
     }
 
 //
-//
+// Start our PowerShell server.
+// @return KTrue upon success, KFalse otherwise.
 //
 int StartPowerShellServer()
     {
+    
     char cmd;
     int length=Dim(&cmd,512);
     //strcat(&cmd,"spawn powershell.exe -NoLogo -NoExit -Command \"& {'C:\\Dev\\GitHub\\Slion\\Gaming\\Games\\Elite Dangerous\\Thrustmaster\\Monitor.ps1'}\"");
@@ -228,14 +239,52 @@ int StartPowerShellServer()
     printf("%s\xa",&cmd);
     system(&cmd);
     
-    OpenPipe();
+    if (OpenPipe(KTrue))
+        {
+        SendMessage("(Get-Host).UI.RawUI.WindowTitle='Thrustmaster TARGET'");
+        SendMessage("Write-Host 'Thrustmaster TARGET'");
+        ClosePipe();
+        return KTrue;
+        }
+        
+    return KFalse;
     }
+
+//
+// Check PowerShell connection.
+// @return KTrue if a connection could be established, KFalse otherwise
+//
+int IsPowerShellServerRunning()
+    {
+    if (OpenPipe(KFalse))
+        {
+        ClosePipe();
+        return KTrue;
+        }
     
-int OpenPipe()
+    return KFalse;    
+    }
+
+
+//
+// Close our PowerShell connection pipe.
+//
+int ClosePipe()
+    {
+    CloseHandle(iPipe);
+    iPipe = INVALID_HANDLE_VALUE;
+    }    
+
+//
+// Open our PowerShell connection pipe.
+// @param aVerbose Specify KTrue enable extra console output.
+// @return KTrue if the pipe was opened, KFalse otherwise.
+//
+int OpenPipe(int aVerbose)
     {    
     // Connect to our pipe, making sure we wait long enough for the server to come online
     int attempts=10;    
-    printf("Connecting to PowerShell .");   
+    if (aVerbose) printf("Connecting to PowerShell .");   
     // Double conditional in while statement did not work so we kept it simple and used break instead.
     // Looks like we are hitting some limitations of that scripting language.
     while (attempts>0)
@@ -246,7 +295,7 @@ int OpenPipe()
             break;
             }
 
-        printf(".");
+        if (aVerbose) printf(".");
         attempts=attempts-1;
         Sleep(100);
         }    
@@ -255,17 +304,12 @@ int OpenPipe()
         {
         printf(" Failure!\xa");
         printf("PowerShell functionalities unavailable.\xa");
-        return 0;
+        return KFalse;
         }
     
     // We have handshake
-    printf(" Success.\xa");
-        
-    SendMessage("(Get-Host).UI.RawUI.WindowTitle='Thrustmaster TARGET'");
-    //SendMessage("Clear-Host");
-    
-    
-    //SendMessage("exit");
+    if (aVerbose) printf(" Success.\xa");
+    return KTrue;
     }
 
 //
@@ -281,7 +325,7 @@ int SendMessage(alias aMessage)
     WriteFile(iPipe,&&eom,length,&&written,0);
     //return written==length;
     //printf("Written: %d \xa",written);    
-    return 0;
+    return KErrNone;
     }
 
 //
@@ -289,8 +333,12 @@ int SendMessage(alias aMessage)
 //
 int BeepModeDefault()
     {
-    SendMessage("[System.Console]::Beep(400, 150)");
-    SendMessage("[System.Console]::Beep(250, 300)");
+    if (OpenPipe(KFalse))
+        {
+        SendMessage("[System.Console]::Beep(400, 80)");
+        SendMessage("[System.Console]::Beep(250, 80)");    
+        ClosePipe();
+        }
     }
 
 //
@@ -298,9 +346,13 @@ int BeepModeDefault()
 //
 int BeepModeCombat()
     {
-    SendMessage("[System.Console]::Beep(400, 100)");
-    SendMessage("[System.Console]::Beep(500, 200)");
-    SendMessage("[System.Console]::Beep(600, 300)");
+    if (OpenPipe(KFalse))
+        {
+        SendMessage("[System.Console]::Beep(200, 80)");
+        SendMessage("[System.Console]::Beep(300, 80)");
+        SendMessage("[System.Console]::Beep(400, 160)");
+        ClosePipe();
+        }
     }
 
 

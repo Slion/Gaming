@@ -75,7 +75,18 @@ int GetTempPath(int aLength, int aPath)
     return GetTempPath(aLength,aPath);
     }
     
-    
+
+//
+//
+//
+int CloseHandle(int aHandle)
+    {
+    Map(&CloseHandle, GetProcAddress(dllKernel32, "CloseHandle"));
+    return CloseHandle(aHandle);
+    }
+
+
+
 //
 // Most certainly unusable from scripting environment since other system calls must be interfering.
 // Still we left it here in case we ever want to give it another try.
