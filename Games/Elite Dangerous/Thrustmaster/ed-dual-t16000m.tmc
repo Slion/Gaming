@@ -95,18 +95,18 @@ int MapAxes()
     {
 	
     //1st T-16000M
-	MapAxis(&RIGHT, JOYX, DX_X_AXIS); // Roll
-	MapAxis(&RIGHT, JOYY, DX_Y_AXIS); // Pitch
+	MapAxis(&RIGHT, JOYX, DX_XROT_AXIS); // Roll
+	MapAxis(&RIGHT, JOYY, DX_YROT_AXIS); // Pitch
 	MapAxis(&RIGHT, RUDDER, DX_ZROT_AXIS); // Yaw
     MapAxis(&RIGHT, THR, DX_SLIDER_AXIS, AXIS_REVERSED); // Unused
 		
 	//2nd T-16000M
-	MapAxis(&LEFT, JOYX, DX_XROT_AXIS); // Lateral thrusters
-	MapAxis(&LEFT, JOYY, DX_Z_AXIS); // Throttle, instant throttle to use durring combat or maneuvers
-	MapAxis(&LEFT, RUDDER, DX_YROT_AXIS); // Vertical thrusters
-	MapAxis(&LEFT, THR, DX_Z_AXIS); // Throttle, fixed throttle to use in supercruise for instance
+	MapAxis(&LEFT, JOYX, DX_X_AXIS); // Lateral thrusters
+	MapAxis(&LEFT, JOYY, DX_Y_AXIS); // Forward/Backward thrusterss
+	MapAxis(&LEFT, RUDDER, DX_Z_AXIS); // Vertical thrusters
+	MapAxis(&LEFT, THR, DX_THROTTLE_AXIS); // Throttle, fixed throttle to use in supercruise for instance
 	// Restrict fixed Throttle to forward as T16K does not have neutral position marker
-	SetCustomCurve(&LEFT, THR, LIST(0,0,  100,50)); 
+	//SetCustomCurve(&LEFT, THR, LIST(0,0,  100,50)); 
 
     }
     
@@ -174,10 +174,10 @@ int MapKeysModeCombat()
     printf("Combat mode enabled\xa");    
     // Targeting switch to hostile only
     MapKeyLong(&LEFT, TS3, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, TS4, KTargetCycleHostileNext, KTargetNextSystemInRoute); // Thumb right	       
+	MapKeyLong(&LEFT, TS4, KTargetCycleHostileNext, KTargetWingmanOne); // Thumb right	       
     // Base duplicates
     MapKeyLong(&LEFT, B11, KTargetCycleHostilePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, B13, KTargetCycleHostileNext, KTargetNextSystemInRoute); // Thumb right	           
+	MapKeyLong(&LEFT, B13, KTargetCycleHostileNext, KTargetWingmanOne); // Thumb right	           
     }
 
 //
@@ -187,11 +187,11 @@ int MapKeysModeDefault()
     {
     printf("Default mode enabled\xa");    
     // Targeting switch to all targets
-	MapKeyLong(&LEFT, TS3, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetNextSystemInRoute); // Thumb right	
+	MapKeyLong(&LEFT, TS3, KTargetCyclePrevious, KTargetNextSystemInRoute); // Thumb left
+	MapKeyLong(&LEFT, TS4, KTargetCycleNext, KTargetWingmanOne); // Thumb right	
     // Base duplicates
-	MapKeyLong(&LEFT, B11, KTargetCyclePrevious, KTargetWingmansTarget); // Thumb left
-	MapKeyLong(&LEFT, B13, KTargetCycleNext, KTargetNextSystemInRoute); // Thumb right	    
+	MapKeyLong(&LEFT, B11, KTargetCyclePrevious, KTargetNextSystemInRoute); // Thumb left
+	MapKeyLong(&LEFT, B13, KTargetCycleNext, KTargetWingmanOne); // Thumb right	    
     }
 
 

@@ -9,6 +9,7 @@ define KTargetSelect                    DX3
 define KWeaponsCycleFireGroupNext       DX4
 
 //
+define KTargetWingmanOne                DX13
 define KModeSwitchMapSystem             DX14
 define KModeSwitchMapGalaxy             DX15
 define KModeSwitchPanelComms            DX16

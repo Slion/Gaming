@@ -36,7 +36,7 @@
 		<ToggleOn Value="0" />
 	</YawToRollButton>
 	<RollAxisRaw>
-		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_XAxis" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_RXAxis" />
 		<Inverted Value="0" />
 		<Deadzone Value="0.00000000" />
 	</RollAxisRaw>
@@ -49,9 +49,9 @@
 		<Secondary Device="{NoDevice}" Key="" />
 	</RollRightButton>
 	<PitchAxisRaw>
-		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_YAxis" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_RYAxis" />
 		<Inverted Value="1" />
-		<Deadzone Value="0.00000000" />
+		<Deadzone Value="0.08000000" />
 	</PitchAxisRaw>
 	<PitchUpButton>
 		<Primary Device="{NoDevice}" Key="" />
@@ -62,7 +62,7 @@
 		<Secondary Device="{NoDevice}" Key="" />
 	</PitchDownButton>
 	<LateralThrustRaw>
-		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_RXAxis" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_XAxis" />
 		<Inverted Value="0" />
 		<Deadzone Value="0.00000000" />
 	</LateralThrustRaw>
@@ -75,7 +75,7 @@
 		<Secondary Device="{NoDevice}" Key="" />
 	</RightThrustButton>
 	<VerticalThrustRaw>
-		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_RYAxis" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_ZAxis" />
 		<Inverted Value="0" />
 		<Deadzone Value="0.00000000" />
 	</VerticalThrustRaw>
@@ -88,8 +88,8 @@
 		<Secondary Device="{NoDevice}" Key="" />
 	</DownThrustButton>
 	<AheadThrust>
-		<Binding Device="{NoDevice}" Key="" />
-		<Inverted Value="0" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_YAxis" />
+		<Inverted Value="1" />
 		<Deadzone Value="0.00000000" />
 	</AheadThrust>
 	<ForwardThrustButton>
@@ -131,11 +131,11 @@
 		<Deadzone Value="0.00000000" />
 	</VerticalThrustAlternate>
 	<ThrottleAxis>
-		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_ZAxis" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_UAxis" />
 		<Inverted Value="1" />
 		<Deadzone Value="0.00000000" />
 	</ThrottleAxis>
-	<ThrottleRange Value="" />
+	<ThrottleRange Value="Bindings_ThrottleForewardOnly" />
 	<ToggleReverseThrottleInput>
 		<Primary Device="{NoDevice}" Key="" />
 		<Secondary Device="{NoDevice}" Key="" />
@@ -312,16 +312,16 @@
 		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_25" />
 	</SelectHighestThreat>
 	<CycleNextHostileTarget>
-		<Primary Device="{NoDevice}" Key="" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Primary Device="Keyboard" Key="Key_O" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_27" />
 	</CycleNextHostileTarget>
 	<CyclePreviousHostileTarget>
-		<Primary Device="{NoDevice}" Key="" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Primary Device="Keyboard" Key="Key_I" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_28" />
 	</CyclePreviousHostileTarget>
 	<TargetWingman0>
 		<Primary Device="Keyboard" Key="Key_7" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_13" />
 	</TargetWingman0>
 	<TargetWingman1>
 		<Primary Device="Keyboard" Key="Key_8" />
@@ -386,17 +386,17 @@
 		<Secondary Device="{NoDevice}" Key="" />
 	</ShipSpotLightToggle>
 	<RadarRangeAxis>
-		<Binding Device="{NoDevice}" Key="" />
+		<Binding Device="ThrustMasterWarthogCombined" Key="Joy_VAxis" />
 		<Inverted Value="0" />
 		<Deadzone Value="0.00000000" />
 	</RadarRangeAxis>
 	<RadarIncreaseRange>
 		<Primary Device="Keyboard" Key="Key_PageUp" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="Keyboard" Key="Key_LeftBracket" />
 	</RadarIncreaseRange>
 	<RadarDecreaseRange>
 		<Primary Device="Keyboard" Key="Key_PageDown" />
-		<Secondary Device="{NoDevice}" Key="" />
+		<Secondary Device="Keyboard" Key="Key_RightBracket" />
 	</RadarDecreaseRange>
 	<IncreaseEnginesPower>
 		<Primary Device="Keyboard" Key="Key_UpArrow" />
@@ -424,7 +424,7 @@
 		<ToggleOn Value="1" />
 	</ToggleCargoScoop>
 	<EjectAllCargo>
-		<Primary Device="{NoDevice}" Key="" />
+		<Primary Device="Keyboard" Key="Key_C" />
 		<Secondary Device="{NoDevice}" Key="" />
 	</EjectAllCargo>
 	<LandingGearToggle>
@@ -493,11 +493,11 @@
 	<RightPanelFocusOptions Value="" />
 	<EnableCameraLockOn Value="1" />
 	<GalaxyMapOpen>
-		<Primary Device="{NoDevice}" Key="" />
+		<Primary Device="Keyboard" Key="Key_AT" />
 		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_15" />
 	</GalaxyMapOpen>
 	<SystemMapOpen>
-		<Primary Device="{NoDevice}" Key="" />
+		<Primary Device="Keyboard" Key="" />
 		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_14" />
 	</SystemMapOpen>
 	<ShowPGScoreSummaryInput>
