@@ -161,7 +161,7 @@ int MapKeysLeftHat(int aUp, int aRight, int aDown, int aLeft)
     // Long: Toggle mapping mode
     MapKeyLong(&LEFT, aUp, KModeSwitchPanelComms, EXEC("ToggleMappingMode();")); // Up
 	MapKeyLong(&LEFT, aRight, KModeSwitchPanelSystems, KModeSwitchMapGalaxy); // Right
-	MapKey(&LEFT, aDown, KModeSwitchPanelRole); // Down
+	MapKey(&LEFT, aDown, KModeSwitchPanelRole, KTargetWingmansTarget); // Down
 	MapKeyLong(&LEFT, aLeft, KModeSwitchPanelTarget, KModeSwitchMapSystem); // Left    
     }
 

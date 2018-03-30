@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Root PresetName="TARGET Dual T16000M" MajorVersion="2" MinorVersion="0">
+<Root PresetName="TARGET Dual T16000M" MajorVersion="3" MinorVersion="0">
 	<KeyboardLayout>en-GB</KeyboardLayout>
 	<MouseXMode Value="" />
 	<MouseXDecay Value="0" />
@@ -279,7 +279,7 @@
 		<Secondary Device="ThrustMasterWarthogCombined" Key="Joy_22" />
 	</HyperSuperCombination>
 	<Supercruise>
-		<Primary Device="{NoDevice}" Key="" />
+		<Primary Device="Keyboard" Key="Key_SemiColon" />
 		<Secondary Device="{NoDevice}" Key="" />
 	</Supercruise>
 	<Hyperspace>
@@ -1213,4 +1213,20 @@
 		<Inverted Value="1" />
 		<Deadzone Value="0.00000000" />
 	</CommanderCreator_Rotation>
+	<GalnetAudio_Play_Pause>
+		<Primary Device="{NoDevice}" Key="" />
+		<Secondary Device="{NoDevice}" Key="" />
+	</GalnetAudio_Play_Pause>
+	<GalnetAudio_SkipForward>
+		<Primary Device="{NoDevice}" Key="" />
+		<Secondary Device="{NoDevice}" Key="" />
+	</GalnetAudio_SkipForward>
+	<GalnetAudio_SkipBackward>
+		<Primary Device="{NoDevice}" Key="" />
+		<Secondary Device="{NoDevice}" Key="" />
+	</GalnetAudio_SkipBackward>
+	<GalnetAudio_ClearQueue>
+		<Primary Device="{NoDevice}" Key="" />
+		<Secondary Device="{NoDevice}" Key="" />
+	</GalnetAudio_ClearQueue>
 </Root>
