@@ -91,6 +91,6 @@ Here are the main changes:
 | Break lever       |    31    |         |
 
 [MW5]: ../../Games/MW5/
-[ED]: ../../Games/Elite%20Dangerous/
+[ED]: ../../Games/ED/
 [VPC Configuration Tool]: https://support.virpil.com/en/support/solutions/articles/47001121642-vpc-software-technical-overview
 [Overload]: https://playoverload.com
