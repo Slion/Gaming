@@ -12,15 +12,15 @@ Those profiles should work with the corresponding [MW5] and [ED] input mapping c
 The intention was to map the first 4 logical buttons to physical buttons that made more sense thus making our life easier on games which assume a sane button ordering for navigating menus such as [Overload] for instance. This can be most useful for VR player looking to avoid removing their HMD too often. Those profiles are also solving physical button mapping discrepancy between left and right Alphas.
 
 Here are the main changes:
-
-01: Trigger first stage
-02: Pinkie button
-03: Red button
-04: Black button
+- Button 1: Trigger first stage
+- Button 2: Pinkie button
+- Button 3: Red button
+- Button 4: Black button
 
 ### ALPHA Left - 03EB-9901
 
-| Description | Physical | Logical |
+| Description       | Physical | Logical |
+| ----------------- | -------- | ------- |
 | Flip trigger one  |    01    |    06   |
 | Flip trigger two  |    02    |    07   |
 | Trigger one       |    03    |    01   |
@@ -57,6 +57,7 @@ Here are the main changes:
 ### ALPHA Right - 03EB-9902
 
 | Description       | Physical | Logical |
+| ----------------- | -------- | ------- |
 | Flip trigger one  |    01    |    06   |
 | Flip trigger two  |    02    |    07   |
 | Trigger one       |    03    |    01   |
