@@ -67,6 +67,7 @@ START_BIND
 NAME: Virpil VPC WarBRD Constellation Alpha - Right
 VID: 0x03EB
 PID: 0x9902
+
 BUTTON: InButton=GenericUSBController_Button1, OutButtons=Joystick_Button1
 BUTTON: InButton=GenericUSBController_Button2, OutButtons=Joystick_Button2
 BUTTON: InButton=GenericUSBController_Button3, OutButtons=Joystick_Button3
