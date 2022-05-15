@@ -1,0 +1,131 @@
+//
+// MechWarrior Online Thrustmaster TARGET script for Single T16000M setup.
+// In its default configuration it's assuming left hand is using mouse and right hand is using T16000.
+// Could easily be adapted for other similar setups.
+//
+// That script was designed not to hardcode keyboard keys.
+// Instead we use actual joystick buttons.
+//
+
+// System include
+include "target.tmh"
+// User include
+include "mwo.tmh"
+
+// Handle to our right hand joystick
+alias T16K;
+alias T16K_LEFT;
+
+// TODO: move to some header
+define KErrNone 0
+define KErrGeneral 1
+define KFalse 0
+define KTrue 1
+
+// ---- Mapping mode management ----
+define KMappingModeDefault 0
+define KMappingModeCombat 1
+int iMappingMode = KMappingModeDefault;
+// ----
+char tempPath;
+
+
+//
+// Entry point
+//
+int main()
+    {     
+    
+    // We ain't using any of the following hardware so we just ignore them.
+    Configure(&HCougar, MODE_EXCLUDED);
+    Configure(&Joystick, MODE_EXCLUDED);
+    Configure(&Throttle, MODE_EXCLUDED);
+    Configure(&LMFD, MODE_EXCLUDED);
+    Configure(&RMFD, MODE_EXCLUDED);
+    Configure(&TWCSThrottle, MODE_EXCLUDED);
+    Configure(&TFRPRudder, MODE_EXCLUDED);
+    // Do not disable this one if you are using left joystick below
+    //Configure(&T16000L, MODE_EXCLUDED);
+    
+    // Hook in our event handler    
+	if(Init(&EventHandle)) return 1;
+		
+	// Fetch our joysticks.	
+	// Swap them if you want it the other way around.
+	&T16K_LEFT = &T16000L; // Unused
+	&T16K = &T16000;
+	
+    // Specify our mappings    
+    MapAxes();
+    MapKeys();
+  
+    }
+
+//
+// Event Handler
+//
+int EventHandle(int type, alias o, int x)
+    {
+    //printf("Event %d\xa",type);
+    DefaultMapping(&o, x);
+    //add event handling code here
+    }
+
+
+//
+// Axes mapping
+//
+int MapAxes()
+    {
+	
+    //1st T-16000M
+	MapAxis(&T16K, JOYX, DX_X_AXIS); // Roll
+	MapAxis(&T16K, JOYY, DX_Y_AXIS); // Pitch, up and down
+	// Yaw, Mech analog turn
+	MapAxis(&T16K, RUDDER, DX_Z_AXIS);
+	
+	//Mechs analog turn lacks precision so adjust curve is not helping 
+	//SetCustomCurve(&T16K, RUDDER, LIST(0,0, 10,40, 50,50, 90,60, 100,100));
+	
+	//SetSCurve(&T16K, RUDDER,
+	//0, //Left Deadzone in percent from range
+    //0, //Center Deadzone in percent from range
+    //0, //Right Deadzone in percent from range
+    //-20, //Curve range between -20 and +20, positive values provide better control in the center.
+    //0 //Scale/zoom neutral
+    //);
+    
+	//
+    MapAxis(&T16K, THR, DX_SLIDER_AXIS, AXIS_REVERSED); // Unused
+		
+    }
+    
+//
+// Key mapping
+//
+int MapKeys()
+    {
+    // -------- Right joystick --------
+    // - Map our hat
+    MapKey(&T16K, H1U, DXHATUP);
+	MapKey(&T16K, H1R, DXHATRIGHT);	
+	MapKey(&T16K, H1D, DXHATDOWN);
+	MapKey(&T16K, H1L, DXHATLEFT);
+		
+	// - Map trigger and thumb stick buttons	
+	MapKey(&T16K, TS1, KWeaponsFireGroupThree); // Trigger
+	// Short: Toggle Hardpoints
+    // Long: Toggle Landing Gear
+	MapKeyLong(&T16K, TS2, KWeaponsFireGroupFour, KWeaponsFireGroupSix); // Thumb
+	MapKeyLong(&T16K, TS3, KTargetSelect, KTargetHighestThreat); // Thumb left
+	MapKeyLong(&T16K, TS4, KMechCenterTorso, KMechCenterLegs); // Thumb right
+    // --------
+
+    }
+
+
+
+
+
+
+

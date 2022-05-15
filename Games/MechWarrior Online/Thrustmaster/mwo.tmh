@@ -1,0 +1,50 @@
+//
+// MechWarrior Online header file
+// 
+
+// Assign virtual keys to game functionalities
+define KWeaponsFireGroupOne        DX1
+define KWeaponsFireGroupTwo        DX2
+define KWeaponsFireGroupThree      DX3 
+define KWeaponsFireGroupFour       DX4
+define KWeaponsFireGroupFive       DX5
+define KWeaponsFireGroupSix        DX6
+
+//
+define KTargetSelect                DX7
+define KMechCenterTorso             DX8
+define KMechCenterLegs              DX9
+
+define KModeSwitchMapSystem             DX14
+define KModeSwitchMapGalaxy             DX15
+define KModeSwitchPanelComms            DX16
+define KModeSwitchPanelSystems          DX17
+define KModeSwitchPanelRole             DX18
+define KModeSwitchPanelTarget           DX19
+define KWeaponsFireSecondary            DX20 
+define KFlightEngineBoost               DX21 
+define KFlightToggleFrameShiftDrive     DX22
+define KTargetCycleNext                 DX23
+define KTargetCyclePrevious             DX24
+define KTargetHighestThreat             DX25
+define KTargetWingmansTarget            DX26
+define KTargetCycleHostileNext          DX27
+define KTargetCycleHostilePrevious      DX28
+define KTargetNextSystemInRoute         DX29
+define KMiscSensorZoomDecrease          DX30
+define KMiscSensorZoomIncrease          DX31
+define KMiscLandingGearToggle           DX32 
+
+// ---- Long press management ----
+// Define long press delay
+define KDefaultLongPressDelay 500
+int iLongPressDelay = KDefaultLongPressDelay;
+
+//
+// Maps a physical button with two virtual buttons.
+// One is trigger on short press the other on long press.
+// 
+int MapKeyLong(alias aDevice, int aPhysicalButton, int aVirtualButton, int aLongVirtualButton)
+    {
+    MapKey(&aDevice, aPhysicalButton, TEMPO(aVirtualButton,aLongVirtualButton,iLongPressDelay));    
+    }
